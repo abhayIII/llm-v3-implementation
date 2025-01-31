@@ -49,3 +49,23 @@ body {
         font-size: 2rem;
     }
 }
+/* Add to existing CSS */
+.feature-card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: var(--transition);
+}
+
+.feature-card.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.error-messages {
+    display: none;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background: #fee2e2;
+    color: #dc2626;
+    border-radius: 5px;
+}
