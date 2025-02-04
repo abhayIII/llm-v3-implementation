@@ -10155,6 +10155,49 @@ your-website/
 
 ---
 
+_**User**_
+
+I want to change the remote repo, tell me the command
+
+---
+
+_**Assistant**_
+
+Here are the commands to change the remote repository URL:
+
+1. **View current remote URL**:
+```bash
+git remote -v
+```
+
+2. **Change remote URL** (choose one method):
+
+```bash
+# Method 1: Set new URL
+git remote set-url origin new-url-here
+
+# Method 2: Remove and add
+git remote remove origin
+git remote add origin new-url-here
+```
+
+3. **Verify the change**:
+```bash
+git remote -v
+```
+
+Example with actual URL:
+```bash
+git remote set-url origin https://github.com/username/new-repository.git
+```
+
+**Note**: 
+- Replace `new-url-here` with your new repository URL
+- Works for both HTTPS and SSH URLs
+- Make sure you have the correct permissions for the new repository
+
+---
+
 
 
 ---

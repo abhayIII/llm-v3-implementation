@@ -1,34 +1,101 @@
 document.addEventListener('DOMContentLoaded', () => {
     try {
         // ======================
-        //  Mobile Menu Toggle
+        //  Mobile Menu Toggle (Fixed)
         // ======================
         const hamburger = document.querySelector('.hamburger');
         const navLinks = document.querySelector('.nav-links');
-        const navItems = document.querySelectorAll('.nav-links a');
-
-        const toggleMenu = () => {
-            navLinks.classList.toggle('nav-active');
-            hamburger.classList.toggle('is-active');
+        const navbar = document.querySelector('.navbar');
+        
+        const toggleMenu = (forceClose = false) => {
+            if (forceClose) {
+                navLinks.classList.remove('nav-active');
+                hamburger.classList.remove('is-active');
+            } else {
+                navLinks.classList.toggle('nav-active');
+                hamburger.classList.toggle('is-active');
+            }
         };
-
+        
         if (hamburger && navLinks) {
             // Toggle menu on hamburger click
-            hamburger.addEventListener('click', toggleMenu);
-
+            hamburger.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent event bubbling
+                toggleMenu();
+            });
+        
             // Close menu when clicking outside
             document.addEventListener('click', (e) => {
-                if (!e.target.closest('.navbar') && navLinks.classList.contains('nav-active')) {
-                    toggleMenu();
+                if (!navbar.contains(e.target) && navLinks.classList.contains('nav-active')) {
+                    toggleMenu(true);
                 }
             });
-
-            // Close menu on nav item click
-            navItems.forEach(item => {
-                item.addEventListener('click', toggleMenu);
+        
+            // Close menu on ESC key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && navLinks.classList.contains('nav-active')) {
+                    toggleMenu(true);
+                }
+            });
+        
+            // Close menu on nav item click (with smooth scroll)
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768) {
+                        toggleMenu(true);
+                    }
+                });
             });
         }
 
+        // ======================
+        //  Enhanced Form Validation (Fixed)
+        // ======================
+        const contactForm = document.querySelector('.contact-form');
+        if (contactForm) {
+            const feedbackContainer = document.createElement('div');
+            feedbackContainer.className = 'form-feedback';
+            contactForm.prepend(feedbackContainer);
+
+            const showFeedback = (message, type = 'error') => {
+                feedbackContainer.textContent = message;
+                feedbackContainer.className = `form-feedback ${type}`;
+                setTimeout(() => {
+                    feedbackContainer.className = 'form-feedback';
+                }, type === 'success' ? 3000 : 5000);
+            };
+
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const formData = new FormData(contactForm);
+                
+                try {
+                    // Validate name
+                    const name = formData.get('name').trim();
+                    if (!name) throw 'Please enter your name';
+                    
+                    // Validate email
+                    const email = formData.get('email').trim();
+                    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw 'Invalid email address';
+                    
+                    // Validate message
+                    const message = formData.get('message').trim();
+                    if (message.length < 10) throw 'Message must be at least 10 characters';
+
+                    // Simulate successful submission
+                    showFeedback('✓ Message sent successfully!', 'success');
+                    contactForm.reset();
+                    
+                    // Remove focus from submit button
+                    e.target.querySelector('button[type="submit"]').blur();
+
+                } catch (error) {
+                    showFeedback(`⚠️ ${error}`);
+                    contactForm.classList.add('form-error');
+                    setTimeout(() => contactForm.classList.remove('form-error'), 500);
+                }
+            });
+        }
         // ======================
         //  Smooth Scrolling
         // ======================
@@ -44,50 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         });
-
-        // ======================
-        //  Form Validation
-        // ======================
-        const contactForm = document.querySelector('.contact-form');
-        if (contactForm) {
-            const errorContainer = document.createElement('div');
-            errorContainer.className = 'error-messages';
-            contactForm.prepend(errorContainer);
-
-            const showError = (message, isSuccess = false) => {
-                errorContainer.textContent = message;
-                errorContainer.style.color = isSuccess ? 'green' : 'red';
-                errorContainer.style.display = 'block';
-                setTimeout(() => {
-                    errorContainer.style.display = 'none';
-                }, isSuccess ? 3000 : 5000);
-            };
-
-            contactForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const formData = new FormData(contactForm);
-                
-                try {
-                    // Validate name
-                    if (!formData.get('name').trim()) throw 'Please enter your name';
-                    
-                    // Validate email
-                    const email = formData.get('email').trim();
-                    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw 'Invalid email address';
-                    
-                    // Validate message
-                    if (formData.get('message').trim().length < 10) throw 'Message must be at least 10 characters';
-
-                    // If validation passes
-                    showError('Message sent successfully!', true);
-                    contactForm.reset();
-
-                } catch (error) {
-                    showError(error);
-                }
-            });
-        }
-
         // ======================
         //  Feature Cards Animation
         // ======================
