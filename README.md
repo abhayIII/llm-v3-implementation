@@ -1,4 +1,4 @@
-# llm-v1-implementation
+# llm-v3-implementation
 # LLM Comparison Test Procedure for Web Development
 # V1 will be Claude Sonnet 3.5, V2 will be Cluade Sonnet 3 and V3 will be Deepseek-R1
 
