@@ -1,13 +1,15 @@
-# llm-v3-implementation
+# llm-v1-implementation
 # LLM Comparison Test Procedure for Web Development
+# V1 will be Claude Sonnet 3.5, V2 will be Cluade Sonnet 3 and V3 will be Deepseek-R1
 
 ## Phase 1: Initial Setup
 
 ### Create Test Project
 1. Create a new directory: `llm-comparison-test`
-2. Create two subdirectories:
+2. Create subdirectories:
    - `llm-v1-implementation`
    - `llm-v2-implementation`
+   - `llm-v3-implementation`
 3. Initialize a new git repository in each subdirectory
 
 ### Document Setup
@@ -158,4 +160,4 @@ The mobile menu doesn't close when clicking outside, and the form submission doe
    - Check browser compatibility
    - Validate accessibility
 
-## This V3 is developed using deepseek-r1 in cursor chat
+## This V3 is developed using Deepseek-R1 Model in cursor chat
